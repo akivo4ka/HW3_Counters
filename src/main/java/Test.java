@@ -1,4 +1,4 @@
-import counters.SemaphoreCounter;
+import counters.MonitorSyncCounter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,21 +18,18 @@ public class Test {
         List<Integer> list = new CopyOnWriteArrayList<>();
 
         int end = 1_500_000;
-        SemaphoreCounter counter = new SemaphoreCounter();
+        // SemaphoreCounter counter = new SemaphoreCounter();
         // AtomicIntegerCounter counter = new AtomicIntegerCounter();
         // LockCounter counter = new LockCounter();
         // ReentrantLockCounter counter = new ReentrantLockCounter();
         // SynchronizedCounter counter = new SynchronizedCounter();
         // VolatileCounter counter = new VolatileCounter();
+        MonitorSyncCounter counter = new MonitorSyncCounter();
 
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
         for (int i = 0; i < end; i++) {
             executor.execute(() -> {
-                try {
-                    list.add(counter.incrementAndGet());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                list.add(counter.incrementAndGet());
             });
         }
 

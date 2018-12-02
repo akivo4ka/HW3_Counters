@@ -8,8 +8,8 @@ public class MonitorSyncCounter {
     public int incrementAndGet() {
         synchronized (monitor) {
             counter++;
+            return counter;
         }
-        return counter;
     }
 
 }
